@@ -81,6 +81,7 @@ typedef struct thd {
     char *outfile_name;         /* outfile name */
     int rc;                     /* remote return code (-S) */
     int nodeid;                 /* node index */
+    char *color;
     int nnodes;                 /* number of nodes in job */
     
     struct rcmd_info *rcmd;     /* rcmd connection info */

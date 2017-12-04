@@ -51,6 +51,7 @@
 #include "src/common/err.h"
 #include "src/common/xmalloc.h"
 #include "src/common/xstring.h"
+#include "color.h"
 #include "dsh.h"
 #include "opt.h"
 #include "mod.h"
@@ -384,7 +385,7 @@ static char *_getcmd(char *prompt)
     char *cmd = NULL;
     char buf[LINEBUFSIZE];
 
-    out("%s> ", prompt);
+    out("%s%s%s%s", ANSI_COLOR_BOLD, prompt, ANSI_COLOR_RESET, "> ");
     if (fgets(buf, LINEBUFSIZE, stdin) != NULL) {
         buf[LINEBUFSIZE - 1] = '\0';
         xstrcln(buf, NULL);

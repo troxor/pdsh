@@ -110,6 +110,7 @@
 #include "src/common/err.h"
 #include "src/common/xpoll.h"
 #include "src/common/fd.h"
+#include "color.h"
 #include "dsh.h"
 #include "opt.h"
 #include "pcp_client.h"
@@ -564,7 +565,7 @@ static int _do_output (int fd, cbuf_t cb, out_f outf, bool read_rc, thd_t *t)
                  *   output.
                  */
                 if (t->labels)
-                    outf ("%S: %s", t->host, buf);
+                    outf ("%s%S:%s %s", t->color, t->host, ANSI_COLOR_RESET, buf);
                 else
                     outf ("%s", buf);
                 fflush (NULL);
@@ -848,11 +849,13 @@ static void _increase_nofile_limit (opt_t *opt)
 
 static int _thd_init (thd_t *th, opt_t *opt, List pcp_infiles, int i)
 { 
+    char *colors[] = { ANSI_COLOR_RED, ANSI_COLOR_GREEN, ANSI_COLOR_YELLOW, ANSI_COLOR_BLUE, ANSI_COLOR_MAGENTA, ANSI_COLOR_CYAN };
     th->luser = opt->luser;        /* general */
     th->ruser = opt->ruser;
     th->state = DSH_NEW;
     th->labels = opt->labels;
     th->nodeid = i;
+    th->color = colors[(i % 6)];
     th->cmd = opt->cmd;
     th->dsh_sopt = opt->separate_stderr;  /* dsh-specific */
     th->rc = 0;
